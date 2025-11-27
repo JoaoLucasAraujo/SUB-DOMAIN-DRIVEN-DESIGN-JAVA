@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Aluno</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+            crossorigin="anonymous">
+
+    <style>
+        body {
+            background-color: #f5f7fb;
+        }
+        .form-card {
+            max-width: 640px;
+            margin: 40px auto;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/alunos}">Gestão de Alunos</a>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="card shadow-sm form-card">
+        <div class="card-header bg-white border-0 pb-0">
+            <h1 class="h4 mb-1" th:text="${aluno.codigo} != null ? 'Editar aluno' : 'Novo aluno'"></h1>
+            <small class="text-muted">Preencha os dados abaixo e clique em salvar.</small>
+        </div>
+        <div class="card-body">
+            <form th:action="@{/alunos/salvar}" th:object="${aluno}" method="post" class="needs-validation" novalidate>
+                <input type="hidden" th:field="*{codigo}" />
+
+                <div class="mb-3">
+                    <label for="nome" class="form-label">Nome completo</label>
+                    <input id="nome" type="text" class="form-control" th:field="*{nome}" required>
+                    <div class="invalid-feedback">
+                        Informe o nome do aluno.
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label for="idade" class="form-label">Idade</label>
+                        <input id="idade" type="number" class="form-control" min="0" th:field="*{idade}" required>
+                        <div class="invalid-feedback">
+                            Informe a idade.
+                        </div>
+                    </div>
+
+                    <div class="col-md-8 mb-3">
+                        <label for="dataNascimento" class="form-label">Data de Nascimento</label>
+                        <input id="dataNascimento" type="date" class="form-control" th:field="*{dataDeNascimento}" required>
+                        <div class="invalid-feedback">
+                            Informe a data de nascimento.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between mt-4">
+                    <a class="btn btn-outline-secondary" th:href="@{/alunos}">
+                        Voltar
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        Salvar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+
+<script>
+    // Validação básica de formulário Bootstrap
+    (() => {
+        'use strict';
+        const forms = document.querySelectorAll('.needs-validation');
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    })();
+</script>
+</body>
+</html>
